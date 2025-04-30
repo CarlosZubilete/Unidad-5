@@ -42,13 +42,13 @@ namespace WebApp_SQL_DManipultationL
     protected global::System.Web.UI.WebControls.TextBox txtProductName;
 
     /// <summary>
-    /// chekBoxSuspendido control.
+    /// cbSuspendido control.
     /// </summary>
     /// <remarks>
     /// Auto-generated field.
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
-    protected global::System.Web.UI.WebControls.CheckBox chekBoxSuspendido;
+    protected global::System.Web.UI.WebControls.CheckBox cbSuspendido;
 
     /// <summary>
     /// btnSend control.
@@ -58,5 +58,14 @@ namespace WebApp_SQL_DManipultationL
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.Button btnSend;
+
+    /// <summary>
+    /// lblQueryShow control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Label lblQueryShow;
   }
 }
