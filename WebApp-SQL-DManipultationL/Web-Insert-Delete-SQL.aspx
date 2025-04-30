@@ -20,7 +20,9 @@
             <span>ID</span>
             <asp:TextBox ID="txtIdProduct" runat="server" CssClass="aspNetTextBox"></asp:TextBox>
             <asp:RequiredFieldValidator ID="requiredID" runat="server" ControlToValidate="txtIdProduct" Font-Size="Small" ForeColor="#FF3300" Height="16px" Width="418px">Este campo es requerido</asp:RequiredFieldValidator>
-            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtProductName" Font-Size="Smaller" ForeColor="#FF3300" ValidationExpression="^[1-9]$" Width="421px">Solo Números enteros postivoos</asp:RegularExpressionValidator>
+            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" 
+                runat="server" ControlToValidate="txtIdProduct" 
+                Font-Size="Smaller" ForeColor="#FF3300" Width="421px" ValidationExpression="^[1-9][0-9]*$">Solo Números enteros postivos</asp:RegularExpressionValidator>
         </div>
         <div>
             <span>Nombre</span>
