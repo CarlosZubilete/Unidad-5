@@ -33,6 +33,24 @@ namespace WebApp_SQL_DManipultationL
     protected global::System.Web.UI.WebControls.TextBox txtIdProduct;
 
     /// <summary>
+    /// requiredID control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.RequiredFieldValidator requiredID;
+
+    /// <summary>
+    /// RegularExpressionValidator1 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator1;
+
+    /// <summary>
     /// txtProductName control.
     /// </summary>
     /// <remarks>
@@ -40,6 +58,15 @@ namespace WebApp_SQL_DManipultationL
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.TextBox txtProductName;
+
+    /// <summary>
+    /// requiredNameProduct control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.RequiredFieldValidator requiredNameProduct;
 
     /// <summary>
     /// cbSuspendido control.

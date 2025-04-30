@@ -19,14 +19,17 @@
         <div>
             <span>ID</span>
             <asp:TextBox ID="txtIdProduct" runat="server" CssClass="aspNetTextBox"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="requiredID" runat="server" ControlToValidate="txtIdProduct" Font-Size="Small" ForeColor="#FF3300" Height="16px" Width="418px">Este campo es requerido</asp:RequiredFieldValidator>
+            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtProductName" Font-Size="Smaller" ForeColor="#FF3300" ValidationExpression="^[1-9]$" Width="421px">Solo Números enteros postivoos</asp:RegularExpressionValidator>
         </div>
         <div>
             <span>Nombre</span>
             <asp:TextBox ID="txtProductName" runat="server" CssClass="aspNetTextBox"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="requiredNameProduct" runat="server" ControlToValidate="txtProductName" Font-Size="Small" ForeColor="#FF3300">Este campo es querido</asp:RequiredFieldValidator>
         </div>
         <div>
-            <span>A la venta</span>
-            <asp:CheckBox ID="cbSuspendido" runat="server" />
+            <span>Indicar si está a la venta</span>
+            <asp:CheckBox ID="cbSuspendido" runat="server" Text="Disponible" />
         </div>
         <asp:Button runat="server" ID="btnSend" Text="Enviar" CssClass="aspNetButton" OnClick="btnSend_Click" />
         <br />
