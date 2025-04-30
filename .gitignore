@@ -1,0 +1,36 @@
+# Ignorar binarios, objetos compilados y publicidades
+bin/
+obj/
+
+# Ignorar archivos de publicación
+publish/
+*.user
+*.suo
+*.cache
+*.log
+*.vspscc
+*.vssscc
+
+# Ignorar directorios de VS y configuraciones locales
+.vs/
+*.dbmdl
+*.jfm
+
+# Ignorar paquetes de NuGet
+packages/
+*.nupkg
+
+# Ignorar archivos de configuración de usuario
+*.userosscache
+*.sln.docstates
+
+# Ignorar archivos de Rider / Resharper
+.idea/
+*.sln.iml
+
+# Ignorar archivos del sistema
+Thumbs.db
+Desktop.ini
+
+# Ignorar carpetas específicas del usuario
+dev-guides/
