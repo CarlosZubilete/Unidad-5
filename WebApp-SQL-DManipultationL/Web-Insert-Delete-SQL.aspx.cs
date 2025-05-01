@@ -15,6 +15,7 @@ namespace WebApp_SQL_DManipultationL
 
     private string queryProveedores = @"Select * From Proveedores";
     private string queryCategorias = @"Select * From Categorías";
+    private string quetyProducts = @"Select * from Productos";
     protected void Page_Load(object sender, EventArgs e)
     {
       if (!IsPostBack)
@@ -23,6 +24,9 @@ namespace WebApp_SQL_DManipultationL
         this.downloadingData(ddlProveedores, queryProveedores, "IdProveedor", "NombreCompañía");
         //IdCategoría , NombreCategoría 
         this.downloadingData(ddlCategory ,queryCategorias, "IdCategoría", "NombreCategoría");
+        // IdProducto , NombreProducto:
+        this.downloadingData(ddlProducts, quetyProducts, "IdProducto", "NombreProducto");
+
       }
     }
 
@@ -52,7 +56,7 @@ namespace WebApp_SQL_DManipultationL
     }
 
     // Agramos una funcion para enviar los datos ingresado a la base SQL
-    private int sendData(string query)
+    private int executeNonQuery(string query)
     {
       using (SqlConnection connection = new SqlConnection(connectingString))
       using (SqlCommand command = new SqlCommand(query, connection))
@@ -71,7 +75,7 @@ namespace WebApp_SQL_DManipultationL
       cbSuspendido.Checked = false;
     }
 
-    private string getQuery()
+    private string getQueryAddProduct()
     {
       // Campos obligatorios: 
       byte valueSuspendido = cbSuspendido.Checked ? (byte)0 : (byte)1;
@@ -102,12 +106,12 @@ namespace WebApp_SQL_DManipultationL
     {
       // INSERT INTO Productos (IdProducto,NombreProducto, [] , []  ,Suspendido) VALUES (100,'Producto 100',0);
           
-      string query = getQuery(); 
+      string query = getQueryAddProduct(); 
 
       // Enviamos los datos ... 
       try
       {
-        if (this.sendData(query) == 1)
+        if (this.executeNonQuery(query) == 1)
         {
           this.cleanControls();
           lblQueryShow.Text = query.ToString();
@@ -117,6 +121,25 @@ namespace WebApp_SQL_DManipultationL
       {
         lblQueryShow.Text = "Ocrurrió un error";
       } 
+    }
+ 
+    protected void btnDelete_Click(object sender, EventArgs e)
+    {
+      // ChekOut , esto es posbile porque validamos previamente
+      int idProduct = Convert.ToInt32(ddlProducts.SelectedValue); 
+      string query = "Delete from Productos Where IdProducto =" + idProduct;
+      try
+      {
+        if(executeNonQuery(query) == 1)
+        {
+          lblShowProduct.Text = "Eliminacion exitosa";
+          ddlProducts.SelectedIndex = 0; 
+        }
+      }
+      catch
+      {
+        lblShowProduct.Text = "Ocurrió un erro";
+      }
     }
   }
 }
