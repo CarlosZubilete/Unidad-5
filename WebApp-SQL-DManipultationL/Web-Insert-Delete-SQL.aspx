@@ -30,6 +30,20 @@
             <asp:RequiredFieldValidator ID="requiredNameProduct" runat="server" ControlToValidate="txtProductName" Font-Size="Small" ForeColor="#FF3300">Este campo es querido</asp:RequiredFieldValidator>
         </div>
         <div>
+            <span>Proveedores:
+            <asp:DropDownList ID="ddlProveedores" runat="server">
+                <asp:ListItem Value="0" Enabled="True">-- Seleccionar -- </asp:ListItem>
+            </asp:DropDownList>
+            </span>
+        </div>
+        <div>
+            <span>Categorías:
+            <asp:DropDownList ID="ddlCategory" runat="server">
+                <asp:ListItem Value="0" Enabled="True">-- Seleccionar -- </asp:ListItem>
+            </asp:DropDownList>
+            </span>
+        </div>
+        <div>
             <span>Indicar si está a la venta</span>
             <asp:CheckBox ID="cbSuspendido" runat="server" Text="Disponible" />
         </div>
@@ -38,6 +52,6 @@
         <asp:Label runat="server" ID="lblQueryShow"></asp:Label>    
     </form>
     
-    <%-- TODO: ASPX.CS , AGREGAR PRODUCTO A LA BASE DE DATOS --%>
+   
 </body>
 </html>
