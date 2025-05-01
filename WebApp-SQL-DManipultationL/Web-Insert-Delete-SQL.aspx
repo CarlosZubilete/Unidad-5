@@ -16,6 +16,7 @@
 <body>
     <h1>Agregando un Producto Nuevo</h1>
         <form id="form1" runat="server">
+    <%-- FORMULARIO PARA AGREGAR UN PRODUCTO --%>
         <div>
             <span>ID del producto</span>
             <asp:TextBox ID="txtIdProduct" runat="server" CssClass="aspNetTextBox"></asp:TextBox>
@@ -50,6 +51,11 @@
         <asp:Button runat="server" ID="btnSend" Text="Enviar" CssClass="aspNetButton" OnClick="btnSend_Click" />
         <br />
         <asp:Label runat="server" ID="lblQueryShow"></asp:Label>    
+    <%-- FIN : FORMULARIO PARA AGREGAR UN PRODUCTO --%>
+    <%-- Formulario para eliminar un producto --%>
+        <div>
+
+        </div>
     </form>
     
    

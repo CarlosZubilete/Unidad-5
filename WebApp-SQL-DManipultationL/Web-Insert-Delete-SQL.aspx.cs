@@ -68,56 +68,49 @@ namespace WebApp_SQL_DManipultationL
       txtProductName.Text = string.Empty;
       ddlProveedores.SelectedIndex = 0;
       ddlCategory.SelectedIndex = 0;
-      // Reinicio los controles Drop down list box;
+      cbSuspendido.Checked = false;
     }
 
+    private string getQuery()
+    {
+      // Campos obligatorios: 
+      byte valueSuspendido = cbSuspendido.Checked ? (byte)0 : (byte)1;
+      int valueIdproducto = Convert.ToInt32(txtIdProduct.Text);
+      string valueNameProcucto = txtProductName.Text;
 
+      string fields = "INSERT INTO Productos (IdProducto,NombreProducto";
+      string values = "( " + valueIdproducto + ", '" + valueNameProcucto + "'";
+
+      if (ddlProveedores.SelectedValue != "0")
+      {
+        values += ", " + Convert.ToInt32(ddlProveedores.SelectedValue);
+        fields += ",IdProveedor";
+      }
+
+      if (ddlCategory.SelectedValue != "0")
+      {
+        values += ", " + Convert.ToInt32(ddlCategory.SelectedValue);
+        fields += ",IdCategoría";
+      }
+
+      fields += " ,Suspendido) VALUES";
+      values += ", " + valueSuspendido + ")";
+      string query = fields + values;
+      return query; 
+    }
     protected void btnSend_Click(object sender, EventArgs e)
     {
       // INSERT INTO Productos (IdProducto,NombreProducto, [] , []  ,Suspendido) VALUES (100,'Producto 100',0);
-      byte valueSuspendido = cbSuspendido.Checked ? (byte)0 : (byte)1;
-      int valueIdproducto = Convert.ToInt32(txtIdProduct.Text);
-      string valueNameProcucto  = txtProductName.Text;
+          
+      string query = getQuery(); 
 
-      string insert = "INSERT INTO Productos (IdProducto,NombreProducto" ; 
-      string queryInserInto = "( " + valueIdproducto + ", '" + valueNameProcucto + "'";
-       
-
-      string opcionales = "";
-  
-      if (ddlProveedores.SelectedValue != "0")
-      {
-        //int idProveedor = Convert.ToInt32(ddlCategory.SelectedValue); 
-        queryInserInto += Convert.ToInt32(ddlProveedores.SelectedValue);
-        opcionales += ",IdProveedor"; 
-      }
-      
-      if(ddlCategory.SelectedValue != "0")
-      {
-        if (opcionales.Length > 0)
-        {
-          queryInserInto += ", " + Convert.ToInt32(ddlProveedores.SelectedValue) + ", "+  Convert.ToInt32(ddlCategory.SelectedValue) ;
-        }
-
-        queryInserInto += ", " +  Convert.ToInt32(ddlCategory.SelectedValue);
-        opcionales += ",IdCategoría"; 
-      }
-
-
-      // insert += opcionales + " ,Suspendido) VALUES" + queryInserInto + valueSuspendido;
-      queryInserInto += ", " + valueSuspendido + ")";  
-      // lblQueryShow.Text = insert + opcionales + " ,Suspendido) VALUES"; //
-
-      insert += opcionales + " ,Suspendido) VALUES" + queryInserInto; 
       // Enviamos los datos ... 
-    
       try
       {
-        if (this.sendData(insert) == 1)
+        if (this.sendData(query) == 1)
         {
-          // codigo indicativo que salio todo bien.
           this.cleanControls();
-          lblQueryShow.Text = insert.ToString();
+          lblQueryShow.Text = query.ToString();
         }
       }
       catch
