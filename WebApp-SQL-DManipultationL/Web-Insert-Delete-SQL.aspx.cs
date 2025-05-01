@@ -6,63 +6,33 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 
+// TODO: Al agregarse un producto nuevo , El control de ddlProductos no se actualiza.
+// TODO: Limpiar el mensaje de exito o error una vez que el usuario ingresa
+//      un valor en los controles Lables (agregado y eliminado)
+
 
 namespace WebApp_SQL_DManipultationL
 {
   public partial class Web_Insert_Delete_SQL : System.Web.UI.Page
   {
-    private const string connectingString = @"Data Source=DESKTOP-LFTFVP5\SQLEXPRESS;Initial Catalog=Neptuno;Integrated Security=True";
+    // private const string connectingString = @"Data Source=DESKTOP-LFTFVP5\SQLEXPRESS;Initial Catalog=Neptuno;Integrated Security=True";
 
     private string queryProveedores = @"Select * From Proveedores";
     private string queryCategorias = @"Select * From Categorías";
     private string quetyProducts = @"Select * from Productos";
+
+    // Intanciamos la clase Servicio:
+    private ServiceProduct service = new ServiceProduct(); 
     protected void Page_Load(object sender, EventArgs e)
     {
       if (!IsPostBack)
       {
         // IdProveedor , NombreCompañía 
-        this.downloadingData(ddlProveedores, queryProveedores, "IdProveedor", "NombreCompañía");
+        service.downloadingData(ddlProveedores, queryProveedores, "IdProveedor", "NombreCompañía");
         //IdCategoría , NombreCategoría 
-        this.downloadingData(ddlCategory ,queryCategorias, "IdCategoría", "NombreCategoría");
+        service.downloadingData(ddlCategory, queryCategorias, "IdCategoría", "NombreCategoría");
         // IdProducto , NombreProducto:
-        this.downloadingData(ddlProducts, quetyProducts, "IdProducto", "NombreProducto");
-
-      }
-    }
-
-    // Agreamos informacion al al Drop List Items:
-    private void downloadingData( DropDownList ddl,string queryTable,string idTable, string nameTable )
-    {
-      int counter = 1;
-      using (SqlConnection connection = new SqlConnection(connectingString))
-      {
-        connection.Open();
-        using (SqlCommand command = new SqlCommand(queryTable, connection))
-        {
-          using(SqlDataReader dataReader = command.ExecuteReader())
-          {
-            // aqui -> ddlToProvince.Items.Insert(0, new ListItem("-- Seleccionar --", "0"));
-            while (dataReader.Read())
-            {
-              ListItem item = new ListItem();
-              item.Text = counter.ToString() + " - " + dataReader[nameTable].ToString(); 
-              item.Value = dataReader[idTable].ToString();   
-              ddl.Items.Add(item);
-              counter++;
-            }
-          }
-        }
-      }
-    }
-
-    // Agramos una funcion para enviar los datos ingresado a la base SQL
-    private int executeNonQuery(string query)
-    {
-      using (SqlConnection connection = new SqlConnection(connectingString))
-      using (SqlCommand command = new SqlCommand(query, connection))
-      {
-        connection.Open();
-        return command.ExecuteNonQuery();
+        service.downloadingData(ddlProducts, quetyProducts, "IdProducto", "NombreProducto");
       }
     }
 
@@ -78,6 +48,8 @@ namespace WebApp_SQL_DManipultationL
     private string getQueryAddProduct()
     {
       // Campos obligatorios: 
+      // INSERT INTO Productos (IdProducto,NombreProducto, [] , []  ,Suspendido)
+      // VALUES (100,'Producto 100',0);
       byte valueSuspendido = cbSuspendido.Checked ? (byte)0 : (byte)1;
       int valueIdproducto = Convert.ToInt32(txtIdProduct.Text);
       string valueNameProcucto = txtProductName.Text;
@@ -103,15 +75,12 @@ namespace WebApp_SQL_DManipultationL
       return query; 
     }
     protected void btnSend_Click(object sender, EventArgs e)
-    {
-      // INSERT INTO Productos (IdProducto,NombreProducto, [] , []  ,Suspendido) VALUES (100,'Producto 100',0);
-          
+    {      
       string query = getQueryAddProduct(); 
-
       // Enviamos los datos ... 
       try
       {
-        if (this.executeNonQuery(query) == 1)
+        if (service.executeNonQuery(query) == 1)
         {
           this.cleanControls();
           lblQueryShow.Text = query.ToString();
@@ -130,7 +99,7 @@ namespace WebApp_SQL_DManipultationL
       string query = "Delete from Productos Where IdProducto =" + idProduct;
       try
       {
-        if(executeNonQuery(query) == 1)
+        if(service.executeNonQuery(query) == 1)
         {
           lblShowProduct.Text = "Eliminacion exitosa";
           ddlProducts.SelectedIndex = 0; 
@@ -138,7 +107,7 @@ namespace WebApp_SQL_DManipultationL
       }
       catch
       {
-        lblShowProduct.Text = "Ocurrió un erro";
+        lblShowProduct.Text = "Ocurrió un error";
       }
     }
   }
