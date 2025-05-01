@@ -19,7 +19,6 @@ namespace WebApp_SQL_DManipultationL
     {
       if (!IsPostBack)
       {
-
         // IdProveedor , NombreCompañía 
         this.downloadingData(ddlProveedores, queryProveedores, "IdProveedor", "NombreCompañía");
         //IdCategoría , NombreCategoría 
@@ -30,6 +29,7 @@ namespace WebApp_SQL_DManipultationL
     // Agreamos informacion al al Drop List Items:
     private void downloadingData( DropDownList ddl,string queryTable,string idTable, string nameTable )
     {
+      int counter = 1;
       using (SqlConnection connection = new SqlConnection(connectingString))
       {
         connection.Open();
@@ -37,9 +37,14 @@ namespace WebApp_SQL_DManipultationL
         {
           using(SqlDataReader dataReader = command.ExecuteReader())
           {
+            // aqui -> ddlToProvince.Items.Insert(0, new ListItem("-- Seleccionar --", "0"));
             while (dataReader.Read())
             {
-              ddl.Items.Add(dataReader[idTable] + " - " + dataReader[nameTable]);
+              ListItem item = new ListItem();
+              item.Text = counter.ToString() + " - " + dataReader[nameTable].ToString(); 
+              item.Value = dataReader[idTable].ToString();   
+              ddl.Items.Add(item);
+              counter++;
             }
           }
         }
@@ -61,29 +66,64 @@ namespace WebApp_SQL_DManipultationL
     {
       txtIdProduct.Text = string.Empty;
       txtProductName.Text = string.Empty;
+      ddlProveedores.SelectedIndex = 0;
+      ddlCategory.SelectedIndex = 0;
+      // Reinicio los controles Drop down list box;
     }
+
 
     protected void btnSend_Click(object sender, EventArgs e)
     {
-      // INSERT INTO Productos (IdProducto,NombreProducto,Suspendido) VALUES (100,'Producto 100',0);
-
-      byte valueSuspendido = cbSuspendido.Checked ? (byte)1 : (byte)0;
+      // INSERT INTO Productos (IdProducto,NombreProducto, [] , []  ,Suspendido) VALUES (100,'Producto 100',0);
+      byte valueSuspendido = cbSuspendido.Checked ? (byte)0 : (byte)1;
       int valueIdproducto = Convert.ToInt32(txtIdProduct.Text);
       string valueNameProcucto  = txtProductName.Text;
 
-      string insert = "INSERT INTO Productos (IdProducto,NombreProducto,Suspendido) VALUES "; 
+      string insert = "INSERT INTO Productos (IdProducto,NombreProducto" ; 
+      string queryInserInto = "( " + valueIdproducto + ", '" + valueNameProcucto + "'";
+       
 
-      string queryInserInto = insert + "( " + valueIdproducto + ", '" + valueNameProcucto + "', " + valueSuspendido + " )";
-      // Enviamos los datos ... 
-      if (this.sendData(queryInserInto) == 1)
+      string opcionales = "";
+  
+      if (ddlProveedores.SelectedValue != "0")
       {
-        // codigo indicativo que salio todo bien.
-        this.cleanControls();
+        //int idProveedor = Convert.ToInt32(ddlCategory.SelectedValue); 
+        queryInserInto += Convert.ToInt32(ddlProveedores.SelectedValue);
+        opcionales += ",IdProveedor"; 
+      }
+      
+      if(ddlCategory.SelectedValue != "0")
+      {
+        if (opcionales.Length > 0)
+        {
+          queryInserInto += ", " + Convert.ToInt32(ddlProveedores.SelectedValue) + ", "+  Convert.ToInt32(ddlCategory.SelectedValue) ;
+        }
+
+        queryInserInto += ", " +  Convert.ToInt32(ddlCategory.SelectedValue);
+        opcionales += ",IdCategoría"; 
       }
 
-      // cartel aclaratorio para ver las consultas
-      lblQueryShow.Text = insert + "( " + valueIdproducto.ToString() + ", '"+ valueNameProcucto +"', "+ valueSuspendido + " )";
 
+      // insert += opcionales + " ,Suspendido) VALUES" + queryInserInto + valueSuspendido;
+      queryInserInto += ", " + valueSuspendido + ")";  
+      // lblQueryShow.Text = insert + opcionales + " ,Suspendido) VALUES"; //
+
+      insert += opcionales + " ,Suspendido) VALUES" + queryInserInto; 
+      // Enviamos los datos ... 
+    
+      try
+      {
+        if (this.sendData(insert) == 1)
+        {
+          // codigo indicativo que salio todo bien.
+          this.cleanControls();
+          lblQueryShow.Text = insert.ToString();
+        }
+      }
+      catch
+      {
+        lblQueryShow.Text = "Ocrurrió un error";
+      } 
     }
   }
 }

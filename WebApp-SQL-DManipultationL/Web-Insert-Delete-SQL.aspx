@@ -14,10 +14,10 @@
     <link rel="stylesheet" href="Web-Insert-Delete-SQL.css" type="text/css" />
 </head>
 <body>
-    <h1>DATOS DEL PRODUCTO</h1>
+    <h1>Agregando un Producto Nuevo</h1>
         <form id="form1" runat="server">
         <div>
-            <span>ID</span>
+            <span>ID del producto</span>
             <asp:TextBox ID="txtIdProduct" runat="server" CssClass="aspNetTextBox"></asp:TextBox>
             <asp:RequiredFieldValidator ID="requiredID" runat="server" ControlToValidate="txtIdProduct" Font-Size="Small" ForeColor="#FF3300" Height="16px" Width="418px">Este campo es requerido</asp:RequiredFieldValidator>
             <asp:RegularExpressionValidator ID="RegularExpressionValidator1" 
@@ -25,7 +25,7 @@
                 Font-Size="Smaller" ForeColor="#FF3300" Width="421px" ValidationExpression="^[1-9][0-9]*$">Solo Números enteros postivos</asp:RegularExpressionValidator>
         </div>
         <div>
-            <span>Nombre</span>
+            <span>Nombre del producto</span>
             <asp:TextBox ID="txtProductName" runat="server" CssClass="aspNetTextBox"></asp:TextBox>
             <asp:RequiredFieldValidator ID="requiredNameProduct" runat="server" ControlToValidate="txtProductName" Font-Size="Small" ForeColor="#FF3300">Este campo es querido</asp:RequiredFieldValidator>
         </div>
